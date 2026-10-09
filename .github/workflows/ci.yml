@@ -1,0 +1,47 @@
+
+name: FastAPI Blog CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+      env:
+      JWT_SECRET_KEY: "ci-test-secret-key-at-least-32-bytes-long"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        working-directory: backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install ruff
+
+      - name: Check Python syntax
+        working-directory: backend
+        run: python -m compileall -q app
+
+      - name: Lint Python code
+        working-directory: backend
+        run: ruff check app
+
+      - name: Run tests
+        working-directory: backend
+        run: pytest -q
+
+      - name: Build Docker image
+        run: docker build -t fastapi-blog:ci .

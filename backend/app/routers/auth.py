@@ -1,20 +1,20 @@
+
+import jwt
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import or_, select
 from sqlalchemy.orm import Session
 
+from app.core.config import settings
 from app.db.session import get_db
 from app.models.user import User
 from app.schemas import (
-    RegisterRequest,
     LoginRequest,
     RefreshRequest,
+    RegisterRequest,
     TokenResponse,
     UserRead,
 )
-from app.security import create_token, create_token_pair, hash_password, verify_password
-from app.core.config import settings
-from datetime import timedelta
-import jwt
+from app.security import create_token_pair, hash_password, verify_password
 
 router = APIRouter(prefix="/api", tags=["Authentication"])
 

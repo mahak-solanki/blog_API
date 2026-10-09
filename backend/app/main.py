@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app import models  # noqa: F401 - registers models with SQLAlchemy metadata
 from app.core.config import settings
 from app.db.session import Base, engine
-from app import models  # noqa: F401 - registers models with SQLAlchemy metadata
 from app.routers.auth import router as auth_router
 from app.routers.posts import router as posts_router
 
