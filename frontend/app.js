@@ -1,7 +1,7 @@
 const API_BASE =
   window.location.port === "5500"
     ? "http://127.0.0.1:8000"
-    : "";
+    : "https://blog-api-pe4x.onrender.com";
 
 const $ = (selector) => document.querySelector(selector);
 
