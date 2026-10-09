@@ -13,7 +13,7 @@ permissions:
 jobs:
   test-and-build:
     runs-on: ubuntu-latest
-      env:
+    env:
       JWT_SECRET_KEY: "ci-test-secret-key-at-least-32-bytes-long"
     steps:
       - name: Checkout repository
