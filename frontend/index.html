@@ -1,0 +1,293 @@
+<!-- <!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FastAPI Blog</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="container">
+    <header><h1>FastAPI Blog</h1><p>Share your thoughts with the community.</p></header>
+
+    <section class="card">
+      <h2>Create account</h2>
+      <form id="register-form">
+        <input name="username" placeholder="Username" minlength="2" maxlength="50" required>
+        <input name="email" type="email" placeholder="Email" required>
+        <input name="password" type="password" placeholder="Password (min 8 characters)" minlength="8" required>
+        <button>Register</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Login</h2>
+      <form id="login-form">
+        <input name="email" type="email" placeholder="Email" required>
+        <input name="password" type="password" placeholder="Password" required>
+        <button>Login</button>
+        <button type="button" id="logout-button" class="secondary">Logout</button>
+      </form>
+      <p id="auth-status" aria-live="polite">Not logged in</p>
+    </section>
+
+    <section class="card">
+      <h2>Write a post</h2>
+      <form id="post-form">
+        <input name="title" placeholder="Post title" maxlength="200" required>
+        <textarea name="content" placeholder="Write your post..." required></textarea>
+        <button>Publish post</button>
+      </form>
+      <p class="hint">You must log in before publishing or commenting.</p>
+    </section>
+
+    <section><h2>Latest posts</h2><button id="refresh-button" class="secondary">Refresh</button><div id="posts"></div></section>
+    <p id="message" role="status" aria-live="polite"></p>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f7f8fc" />
+  <title>InkSpace — Blog Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- AUTHENTICATION PAGE -->
+    <section id="auth-page" class="auth-page">
+      <div class="auth-brand">
+        <div class="brand-icon">i.</div>
+        <span>InkSpace</span>
+      </div>
+
+      <div class="auth-layout">
+        <div class="auth-intro">
+          <span class="eyebrow">YOUR SPACE. YOUR STORIES.</span>
+          <h1>Ideas deserve<br />a place to <span>live.</span></h1>
+          <p>
+            Write your thoughts, share your stories, and connect
+            with people through meaningful conversations.
+          </p>
+          <div class="intro-points">
+            <div><span class="point-icon">✦</span> Share what matters to you</div>
+            <div><span class="point-icon">✎</span> Create your own blog posts</div>
+            <div><span class="point-icon">♡</span> Join the conversation</div>
+          </div>
+        </div>
+
+        <div class="auth-card">
+          <div class="auth-heading">
+            <h2 id="auth-title">Welcome back</h2>
+            <p id="auth-subtitle">Sign in to continue to your workspace.</p>
+          </div>
+
+          <div class="auth-tabs">
+            <button type="button" class="auth-tab active" data-auth-tab="login">
+              Sign in
+            </button>
+            <button type="button" class="auth-tab" data-auth-tab="register">
+              Create account
+            </button>
+          </div>
+
+          <form id="login-form" class="auth-form">
+            <label for="login-email">Email address</label>
+            <input
+              id="login-email"
+              name="email"
+              type="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+            />
+
+            <label for="login-password">Password</label>
+            <input
+              id="login-password"
+              name="password"
+              type="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              required
+            />
+
+            <button type="submit" class="btn btn-primary btn-full">
+              Sign in <span>→</span>
+            </button>
+          </form>
+
+          <form id="register-form" class="auth-form hidden">
+            <label for="register-username">Username</label>
+            <input
+              id="register-username"
+              name="username"
+              type="text"
+              placeholder="Choose a username"
+              minlength="2"
+              maxlength="50"
+              autocomplete="username"
+              required
+            />
+
+            <label for="register-email">Email address</label>
+            <input
+              id="register-email"
+              name="email"
+              type="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+            />
+
+            <label for="register-password">Password</label>
+            <input
+              id="register-password"
+              name="password"
+              type="password"
+              placeholder="At least 8 characters"
+              minlength="8"
+              autocomplete="new-password"
+              required
+            />
+
+            <button type="submit" class="btn btn-primary btn-full">
+              Create account <span>→</span>
+            </button>
+          </form>
+
+          <p id="auth-message" class="message" role="status" aria-live="polite"></p>
+          <p class="auth-footnote">A little space for your big ideas.</p>
+        </div>
+      </div>
+
+      <footer class="auth-footer">© 2026 InkSpace · Write your story.</footer>
+    </section>
+
+    <!-- BLOG DASHBOARD -->
+    <section id="dashboard-page" class="dashboard-page hidden">
+      <header class="topbar">
+        <a href="#" class="brand" id="brand-home">
+          <span class="brand-icon">i.</span>
+          <span>InkSpace</span>
+        </a>
+
+        <div class="topbar-right">
+          <div class="user-chip">
+            <div class="avatar" id="user-avatar">U</div>
+            <div class="user-details">
+              <strong id="current-username">User</strong>
+              <span>Blog writer</span>
+            </div>
+          </div>
+          <button type="button" id="logout-button" class="btn btn-outline">
+            Log out
+          </button>
+        </div>
+      </header>
+
+      <main class="dashboard-main">
+        <section class="welcome-section">
+          <div>
+            <span class="eyebrow">YOUR PERSONAL WORKSPACE</span>
+            <h1>Your stories, <span>your space.</span></h1>
+            <p>What would you like to share with the world today?</p>
+          </div>
+          <div class="welcome-decoration" aria-hidden="true">✦</div>
+        </section>
+
+        <div id="dashboard-message" class="message dashboard-message"
+             role="status" aria-live="polite"></div>
+
+        <div class="dashboard-grid">
+          <!-- POSTS -->
+          <section class="posts-panel">
+            <div class="section-heading">
+              <div>
+                <span class="eyebrow">THE COMMUNITY</span>
+                <h2>Explore posts</h2>
+              </div>
+              <button type="button" id="refresh-button" class="icon-button"
+                      title="Refresh posts" aria-label="Refresh posts">↻</button>
+            </div>
+
+            <div class="post-filters">
+              <button type="button" class="filter-tab active" data-filter="all">
+                All posts
+              </button>
+              <button type="button" class="filter-tab" data-filter="mine">
+                My posts
+              </button>
+            </div>
+
+            <div id="posts" class="posts-list">
+              <div class="loading-state">Loading posts...</div>
+            </div>
+          </section>
+
+          <!-- CREATE POST -->
+          <aside class="composer-panel">
+            <div class="composer-heading">
+              <div class="composer-icon">✎</div>
+              <div>
+                <span class="eyebrow">START WRITING</span>
+                <h2>Create a post</h2>
+              </div>
+            </div>
+
+            <p class="composer-description">
+              Every great story starts with a few words.
+            </p>
+
+            <form id="post-form" class="composer-form">
+              <label for="post-title">Post title</label>
+              <input
+                id="post-title"
+                name="title"
+                type="text"
+                placeholder="Give your story a title"
+                maxlength="200"
+                required
+              />
+
+              <label for="post-content">Your story</label>
+              <textarea
+                id="post-content"
+                name="content"
+                placeholder="Start writing something meaningful..."
+                rows="8"
+                required
+              ></textarea>
+
+              <div class="composer-bottom">
+                <span>✦ Make it yours</span>
+                <button type="submit" class="btn btn-primary">
+                  Publish post <span>→</span>
+                </button>
+              </div>
+            </form>
+
+            <div class="writing-tip">
+              <span>✧</span>
+              <p><strong>A small reminder</strong><br />Write freely. Your perspective matters.</p>
+            </div>
+          </aside>
+        </div>
+
+        <footer class="dashboard-footer">
+          Made for your thoughts, stories, and conversations. <span>✦</span>
+        </footer>
+      </main>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
